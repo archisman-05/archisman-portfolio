@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
 /* =========================================================
-   THE ARCHISMAN DAILY
-   CLEAN GLOBAL STYLES — TAILWIND v4
+   DESIGN TOKENS — ORIGINAL PORTFOLIO COLOURS
 ========================================================= */
 
 :root {
-  --paper: #efe4c8;
-  --paper-light: #f5edd8;
-  --paper-dark: #dcc9a6;
+  --paper: #d8c7a5;
+  --paper-light: #e5d7ba;
+  --paper-dark: #b7a88e;
 
   --ink: #17130f;
   --ink-muted: #554b3d;
 
   --red: #8c2f24;
   --gold: #b38a3d;
-  --night: #05060d;
+
+  --night: #05050a;
 }
 
 /* =========================================================
    GLOBAL RESET
 ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   width: 100%;
@@ -28,13 +34,13 @@ html {
   overflow-x: clip;
   overscroll-behavior-x: none;
   scroll-behavior: smooth;
-  background: var(--paper);
 }
 
 body {
   width: 100%;
   min-width: 0;
   min-height: 100vh;
+
   margin: 0;
   padding: 0;
 
@@ -42,6 +48,7 @@ body {
   overscroll-behavior-x: none;
 
   color: var(--ink);
+
   background-color: var(--paper);
 
   background-image:
@@ -50,7 +57,7 @@ body {
       transparent 1px
     ),
     radial-gradient(
-      rgba(0, 0, 0, 0.055) 1px,
+      rgba(0, 0, 0, 0.05) 1px,
       transparent 1px
     );
 
@@ -61,26 +68,10 @@ body {
   font-family: var(--font-playfair), Georgia, serif;
 }
 
-/* Prevent width explosions */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+body:has(.case-modal),
+html:has(.case-modal) {
+  overflow: hidden;
 }
-
-/* Important for grid/flex children */
-
-main,
-section,
-header,
-footer,
-article,
-div {
-  min-width: 0;
-}
-
-/* Media safety */
 
 img,
 svg,
@@ -96,10 +87,15 @@ img {
 }
 
 button,
+a,
 input,
 textarea,
 select {
   font: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 a {
@@ -107,348 +103,369 @@ a {
   text-decoration: none;
 }
 
-button {
-  cursor: pointer;
+::selection {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 /* =========================================================
-   HORIZONTAL OVERFLOW PROTECTION
+   PREVENT HORIZONTAL PAGE DRAGGING
 ========================================================= */
 
 #__next,
+main,
+section,
+header,
+footer,
+article {
+  max-width: 100%;
+}
+
+div,
+section,
+article,
+header,
+footer {
+  min-width: 0;
+}
+
 main {
   width: 100%;
-  max-width: 100%;
   overflow-x: clip;
 }
 
-/* Prevent large editorial text from pushing viewport */
-
-h1,
-h2,
-h3,
-h4,
-p,
-blockquote {
-  min-width: 0;
-  max-width: 100%;
-}
-
-/* Long words must never create horizontal scrolling */
-
-p,
-h1,
-h2,
-h3,
-h4,
-blockquote {
-  overflow-wrap: break-word;
-}
-
 /* =========================================================
-   TYPOGRAPHY UTILITIES
+   TYPOGRAPHY
 ========================================================= */
 
 .editorial {
-  font-family:
-    var(--font-bodoni),
-    Georgia,
-    "Times New Roman",
-    serif;
+  font-family: var(--font-bodoni), Georgia, serif;
 }
 
 .newspaper-serif {
-  font-family:
-    var(--font-playfair),
-    Georgia,
-    "Times New Roman",
-    serif;
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
 .newspaper-mono {
-  font-family:
-    var(--font-mono),
-    ui-monospace,
-    monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 /* =========================================================
-   SELECTION
+   INTRO OVERLAY
 ========================================================= */
-
-::selection {
-  color: var(--paper);
-  background: var(--ink);
-}
-
-/* =========================================================
-   LINK / BUTTON POLISH
-========================================================= */
-
-a,
-button {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Keep hover transitions smooth without changing design */
-
-a {
-  transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
-}
-
-/* =========================================================
-   FIX EMOJI-STYLE SYMBOL RENDERING
-========================================================= */
-
-/*
-  Text arrows and stars should inherit the site's typography.
-*/
-
-span {
-  font-variant-emoji: text;
-}
-
-/* =========================================================
-   INTRO NEWSPAPER ANIMATION
-========================================================= */
-
-/* Dark full-screen intro */
 
 .intro-overlay {
   position: fixed;
   inset: 0;
-
   z-index: 9999;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  width: 100vw;
   height: 100dvh;
 
-  padding: 18px;
-
   overflow: hidden;
 
-  background: var(--night);
-}
-
-/* Tilted newspaper */
-
-.intro-newspaper {
-  position: relative;
-
-  width: min(88vw, 460px);
-  max-width: 100%;
-
-  aspect-ratio: 1.38 / 1;
-
-  overflow: hidden;
-
-  background-color: var(--paper);
-
-  background-image:
+  background:
     radial-gradient(
-      rgba(255, 255, 255, 0.2) 1px,
-      transparent 1px
-    ),
-    radial-gradient(
-      rgba(0, 0, 0, 0.045) 1px,
-      transparent 1px
+      circle at center,
+      #101019 0%,
+      #05050a 72%
     );
 
-  background-size:
-    4px 4px,
-    7px 7px;
+  isolation: isolate;
 
-  border: 2px solid var(--ink);
+  animation:
+    introOverlayExit 0.45s ease-in forwards;
+
+  animation-delay: 3.15s;
+
+  will-change: opacity, visibility;
+}
+
+/* =========================================================
+   INTRO NEWSPAPER WRAPPER
+========================================================= */
+
+.intro-newspaper-wrap {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: min(82vw, 620px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+}
+
+/* =========================================================
+   NEWSPAPER ARRIVAL
+========================================================= */
+
+.intro-newspaper-thrown {
+  opacity: 0;
+
+  transform:
+    translate(-14vw, 16vh)
+    scale(0.2)
+    rotate(-40deg);
+
+  animation:
+    introNewspaperThrow
+    0.95s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+
+  animation-delay: 0.15s;
+
+  will-change: transform, opacity;
+}
+
+/* =========================================================
+   NEWSPAPER BODY
+========================================================= */
+
+.intro-newspaper-body {
+  position: relative;
+
+  width: min(82vw, 620px);
+  aspect-ratio: 1.45 / 1;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.28),
+      rgba(0, 0, 0, 0.035)
+    ),
+    #e8dfc8;
+
+  border: 3px solid var(--ink);
 
   box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.65),
-    inset 0 0 35px rgba(70, 50, 25, 0.08);
+    0 30px 90px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(74, 55, 30, 0.12);
 
+  transform: scaleY(0.08);
   transform-origin: center;
 
   animation:
-    newspaper-arrive 1.05s
-      cubic-bezier(0.16, 1, 0.3, 1)
-      forwards,
-    newspaper-unfold 1.15s
-      0.65s
-      cubic-bezier(0.16, 1, 0.3, 1)
-      forwards;
+    introNewspaperUnfold
+    0.55s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+
+  animation-delay: 1.05s;
+
+  will-change: transform;
 }
 
-/* Newspaper content */
+.intro-newspaper-body::before {
+  content: "";
+
+  position: absolute;
+  inset: 12px;
+
+  border: 1px solid rgba(23, 19, 15, 0.45);
+
+  pointer-events: none;
+}
+
+.intro-newspaper-fold {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 50%;
+
+  height: 2px;
+
+  background: rgba(23, 19, 15, 0.32);
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  animation:
+    introFoldReveal
+    0.35s
+    ease-out
+    forwards;
+
+  animation-delay: 1.45s;
+}
+
+/* =========================================================
+   INTRO CONTENT
+========================================================= */
 
 .intro-newspaper-content {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
-  height: 100%;
-
-  padding: clamp(20px, 5vw, 36px);
+  padding: 30px;
 
   text-align: center;
-}
-
-.intro-kicker {
-  margin-bottom: clamp(10px, 2vw, 18px);
-
-  color: var(--red);
-
-  font-size: clamp(0.48rem, 1.6vw, 0.78rem);
-  font-weight: 800;
-
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
 
   opacity: 0;
+  transform: translateY(14px);
 
   animation:
-    intro-content-reveal
-      0.55s
-      ease-out
-      1.3s
-      forwards;
+    introContentFadeIn
+    0.45s
+    ease-out
+    forwards;
+
+  animation-delay: 1.5s;
+
+  will-change: transform, opacity;
 }
 
-.intro-title {
+.intro-np-kicker {
+  margin: 0 0 16px;
+
+  color: #8c2f24;
+
+  font-size: clamp(9px, 1.5vw, 13px);
+  font-weight: 800;
+
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+}
+
+.intro-np-title {
   margin: 0;
 
   color: var(--ink);
 
-  font-family:
-    var(--font-bodoni),
-    Georgia,
-    serif;
+  font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(2.1rem, 7.5vw, 4.8rem);
+  font-size: clamp(34px, 7vw, 82px);
   font-weight: 900;
 
-  line-height: 0.84;
+  line-height: 0.85;
 
   letter-spacing: 0.02em;
   text-transform: uppercase;
-
-  opacity: 0;
-
-  animation:
-    intro-content-reveal
-      0.65s
-      ease-out
-      1.4s
-      forwards;
 }
 
-.intro-meta {
-  margin-top: clamp(14px, 3vw, 24px);
+.intro-np-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 14px 24px;
+
+  margin-top: 24px;
+  padding-top: 14px;
+
+  border-top:
+    1px solid rgba(23, 19, 15, 0.35);
 
   color: var(--ink);
 
-  font-size: clamp(0.45rem, 1.2vw, 0.72rem);
-  font-weight: 700;
+  font-size: clamp(8px, 1.2vw, 11px);
+  font-weight: 800;
 
   letter-spacing: 0.2em;
   text-transform: uppercase;
-
-  opacity: 0;
-
-  animation:
-    intro-content-reveal
-      0.55s
-      ease-out
-      1.6s
-      forwards;
-}
-
-/* Exit class */
-
-.intro-overlay.exit {
-  animation:
-    intro-fade-out
-      0.7s
-      ease
-      forwards;
 }
 
 /* =========================================================
-   INTRO KEYFRAMES
+   INTRO ANIMATIONS
 ========================================================= */
 
-@keyframes newspaper-arrive {
+@keyframes introOverlayExit {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  99% {
+    opacity: 0;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@keyframes introNewspaperThrow {
   0% {
     opacity: 0;
 
     transform:
-      translateY(130vh)
-      rotate(-10deg)
-      scale(0.62);
+      translate(-14vw, 16vh)
+      scale(0.2)
+      rotate(-40deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+
+    transform:
+      translate(0, 0)
+      scale(1.05)
+      rotate(6deg);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate(0, 0)
+      scale(1)
+      rotate(0deg);
+  }
+}
+
+@keyframes introNewspaperUnfold {
+  0% {
+    transform: scaleY(0.08);
   }
 
   65% {
-    opacity: 1;
-
-    transform:
-      translateY(-1vh)
-      rotate(-5deg)
-      scale(1.03);
+    transform: scaleY(1.04);
   }
 
   100% {
-    opacity: 1;
-
-    transform:
-      translateY(0)
-      rotate(-2.5deg)
-      scale(1);
+    transform: scaleY(1);
   }
 }
 
-@keyframes newspaper-unfold {
-  0% {
-    transform:
-      rotate(-2.5deg)
-      scaleX(0.18)
-      scaleY(0.72);
+@keyframes introFoldReveal {
+  from {
+    transform: scaleX(0);
   }
 
-  55% {
-    transform:
-      rotate(-1deg)
-      scaleX(1.04)
-      scaleY(1.03);
-  }
-
-  75% {
-    transform:
-      rotate(-2deg)
-      scaleX(0.99)
-      scaleY(0.98);
-  }
-
-  100% {
-    transform:
-      rotate(-2deg)
-      scaleX(1)
-      scaleY(1);
+  to {
+    transform: scaleX(1);
   }
 }
 
-@keyframes intro-content-reveal {
+@keyframes introContentFadeIn {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(14px);
   }
 
   to {
@@ -457,63 +474,129 @@ span {
   }
 }
 
-@keyframes intro-fade-out {
-  from {
-    opacity: 1;
-    visibility: visible;
-  }
+/* =========================================================
+   CASE FILE MODAL
+========================================================= */
 
-  to {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
+.case-modal {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100dvh;
+
+  padding:
+    max(16px, env(safe-area-inset-top))
+    16px
+    max(16px, env(safe-area-inset-bottom));
+
+  background: rgba(0, 0, 0, 0.72);
+
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.case-modal-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+
+  touch-action: none;
+}
+
+.case-modal-shell {
+  position: relative;
+  z-index: 2;
+
+  width: min(100%, 1100px);
+  max-height: calc(100dvh - 32px);
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  touch-action: pan-y;
+
+  animation:
+    case-modal-enter
+    0.45s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+.case-modal-scroll {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100dvh - 32px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior-y: contain;
+  overscroll-behavior-x: none;
+
+  touch-action: pan-y;
+
+  background:
+    radial-gradient(
+      rgba(255, 255, 255, 0.18) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px
+    ),
+    var(--paper);
+
+  background-size:
+    4px 4px,
+    7px 7px;
+
+  color: var(--ink);
+
+  border: 2px solid var(--ink);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-muted) transparent;
+}
+
+.case-modal-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.case-modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.case-modal-scroll::-webkit-scrollbar-thumb {
+  background: var(--ink-muted);
 }
 
 /* =========================================================
-   CASE FILE MODAL ANIMATIONS
+   CASE FILE ANIMATIONS
 ========================================================= */
 
-.case-impact {
-  animation:
-    case-impact
-      0.9s
-      cubic-bezier(0.16, 1, 0.3, 1)
-      forwards;
-}
+@keyframes case-modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
 
-.case-unfold {
-  animation:
-    case-unfold
-      0.72s
-      cubic-bezier(0.16, 1, 0.3, 1)
-      forwards;
-}
-
-.case-date {
-  animation:
-    case-date
-      0.8s
-      ease-out
-      forwards;
-}
-
-.case-content {
-  animation:
-    case-content
-      0.55s
-      ease-out
-      forwards;
-}
-
-.case-paperclip {
-  display: inline-block;
-
-  animation:
-    case-paperclip
-      1.8s
-      ease-in-out
-      infinite;
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes case-impact {
@@ -521,25 +604,18 @@ span {
     opacity: 0;
 
     transform:
-      translateY(-130vh)
-      rotate(-24deg)
-      scale(0.55);
+      translateY(-100vh)
+      rotate(-14deg)
+      scale(0.75);
   }
 
-  55% {
+  70% {
     opacity: 1;
 
     transform:
-      translateY(2vh)
-      rotate(6deg)
-      scale(1.04);
-  }
-
-  75% {
-    transform:
-      translateY(-1vh)
-      rotate(-2deg)
-      scale(0.99);
+      translateY(1vh)
+      rotate(2deg)
+      scale(1.01);
   }
 
   100% {
@@ -547,7 +623,7 @@ span {
 
     transform:
       translateY(0)
-      rotate(0deg)
+      rotate(0)
       scale(1);
   }
 }
@@ -555,59 +631,21 @@ span {
 @keyframes case-unfold {
   0% {
     opacity: 0;
-
-    transform:
-      scaleX(0.08)
-      scaleY(0.4);
-  }
-
-  55% {
-    opacity: 1;
-
-    transform:
-      scaleX(1.03)
-      scaleY(0.5);
+    transform: scaleY(0.35);
+    transform-origin: top;
   }
 
   100% {
     opacity: 1;
-
-    transform:
-      scaleX(1)
-      scaleY(1);
-  }
-}
-
-@keyframes case-date {
-  0% {
-    opacity: 0;
-
-    transform:
-      scale(0.65)
-      rotate(-5deg);
-  }
-
-  45% {
-    opacity: 1;
-
-    transform:
-      scale(1.08)
-      rotate(2deg);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      scale(1.3)
-      rotate(0deg);
+    transform: scaleY(1);
+    transform-origin: top;
   }
 }
 
 @keyframes case-content {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(14px);
   }
 
   to {
@@ -616,295 +654,310 @@ span {
   }
 }
 
-@keyframes case-paperclip {
-  0%,
-  100% {
-    transform: rotate(-10deg);
-  }
+.case-impact {
+  animation:
+    case-impact
+    0.55s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
 
-  50% {
-    transform: rotate(8deg);
-  }
+.case-unfold {
+  animation:
+    case-unfold
+    0.4s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+.case-content {
+  animation:
+    case-content
+    0.35s
+    ease-out
+    forwards;
 }
 
 /* =========================================================
-   CURRENT PAGE.TSX RESPONSIVE FIXES
+   REAL SVG ARROWS
 ========================================================= */
 
-/*
-  Your current page.tsx header is:
+.icon-arrow {
+  display: inline-block;
 
-  grid-cols-3
+  width: 1.15em;
+  height: 1.15em;
 
-  On mobile that causes:
-  Est. 2005 + title + Kolkata to collide.
+  flex: 0 0 auto;
 
-  This CSS safely converts it into a mobile layout
-  without changing desktop.
-*/
+  stroke: currentColor;
+  fill: none;
 
-@media (max-width: 767px) {
-  /* Main page spacing */
+  stroke-width: 2;
 
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vertical-align: middle;
+
+  transition: transform 0.25s ease;
+}
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.arrow-link:hover .icon-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* =========================================================
+   RESPONSIVE HERO FIXES
+========================================================= */
+
+@media (max-width: 1023px) {
   main {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+    padding-inline: 0 !important;
   }
 
-  /* ---------------------------------------------------------
-     FRONT PAGE
-  --------------------------------------------------------- */
+  main > section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  h1,
+  h2,
+  h3,
+  p {
+    max-width: 100%;
+  }
 
   main > section:first-child {
     height: auto !important;
-    min-height: 100svh;
+    min-height: 100dvh;
+
     overflow: visible !important;
   }
 
-  /* Masthead */
-
   main > section:first-child > header {
-    display: grid !important;
-
     grid-template-columns:
       minmax(0, 1fr)
-      minmax(0, 1.7fr)
+      minmax(0, 1.5fr)
       minmax(0, 1fr);
-
-    gap: 6px;
-
-    padding-top: 14px !important;
-    padding-bottom: 14px !important;
   }
 
-  main > section:first-child > header > p {
-    min-width: 0;
-
-    font-size: 0.55rem !important;
-
-    line-height: 1.25;
-
-    letter-spacing: 0.08em;
-
+  main > section:first-child > header p {
+    font-size: 9px !important;
     white-space: normal;
   }
 
   main > section:first-child > header h1 {
-    font-size: clamp(1.45rem, 7vw, 2rem) !important;
-
-    line-height: 0.92;
-
-    letter-spacing: 0.08em !important;
-
-    overflow-wrap: normal;
+    font-size: clamp(22px, 7vw, 34px) !important;
+    line-height: 0.9;
   }
 
-  main > section:first-child > header h1 + p {
-    margin-top: 5px !important;
-
-    font-size: 0.42rem !important;
-
-    line-height: 1.2;
-
-    letter-spacing: 0.18em !important;
-  }
-
-  /* Navigation */
-
-  main > section:first-child > nav {
+  #home {
     display: flex !important;
-
-    flex-wrap: wrap;
-
-    justify-content: center !important;
-
-    gap: 9px 13px !important;
-
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-
-    overflow-x: visible !important;
-  }
-
-  main > section:first-child > nav a,
-  main > section:first-child > nav span {
-    flex: 0 0 auto;
-
-    font-size: 0.55rem !important;
-
-    letter-spacing: 0.12em !important;
-
-    white-space: nowrap;
-  }
-
-  /* Hero */
-
-  main > section:first-child > section#home {
-    display: grid !important;
-
-    grid-template-columns: minmax(0, 1fr) !important;
+    flex-direction: column;
 
     flex: none !important;
-
-    min-height: 0 !important;
 
     overflow: visible !important;
   }
 
-  /* Wanted column */
+  #home > div:first-child {
+    min-height: auto !important;
 
-  main > section:first-child > section#home > div:first-child {
     padding:
       28px
-      18px
+      20px
       24px !important;
-
-    border-right: 0 !important;
   }
 
-  main > section:first-child > section#home > div:first-child h2 {
-    font-size: clamp(3.4rem, 15vw, 5.5rem) !important;
-
-    line-height: 0.82 !important;
-  }
-
-  main > section:first-child > section#home > div:first-child > div {
-    width: 100%;
-  }
-
-  /* Wanted image */
-
-  main > section:first-child > section#home img {
-    width: 100% !important;
-
+  #home > div:first-child > div {
     height: auto !important;
+  }
+
+  #home > div:first-child h2 {
+    font-size: clamp(54px, 17vw, 84px) !important;
+  }
+
+  #home img {
+    width: min(100%, 520px) !important;
 
     max-height: none !important;
+    height: auto !important;
 
     object-fit: contain;
+
+    margin-inline: auto;
   }
 
-  /* Reward */
-
-  main > section:first-child > section#home > div:first-child .editorial {
-    max-width: 100%;
-
-    font-size: clamp(2rem, 9vw, 3.4rem) !important;
-
-    white-space: normal;
-  }
-
-  /* Introducing / right side */
-
-  main > section:first-child > section#home > div:last-child {
+  #home > div:last-child {
     padding:
-      42px
-      18px
-      48px !important;
+      48px
+      24px
+      56px !important;
   }
 
-  /* Huge Archisman Kundu heading */
+  #home > div:last-child h2 {
+    font-size: clamp(58px, 18vw, 100px) !important;
 
-  main > section:first-child > section#home > div:last-child h2 {
-    width: 100%;
+    line-height: 0.8;
 
-    max-width: 100%;
-
-    font-size: clamp(3.4rem, 15vw, 5.6rem) !important;
-
-    line-height: 0.82 !important;
-
-    letter-spacing: -0.055em !important;
+    letter-spacing: -0.06em;
 
     overflow-wrap: anywhere;
   }
 
-  /* Hero paragraph */
-
-  main > section:first-child > section#home > div:last-child .newspaper-serif {
-    font-size: 1.05rem !important;
-
-    line-height: 1.65;
-  }
-
-  /* Buttons */
-
-  main > section:first-child > section#home > div:last-child > div.flex {
+  #home > div:last-child > div.mt-5 {
     display: grid !important;
 
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: 1fr;
 
     width: 100%;
   }
 
-  main > section:first-child > section#home > div:last-child > div.flex a {
+  #home > div:last-child > div.mt-5 a {
     width: 100%;
-
-    padding:
-      16px
-      18px !important;
 
     text-align: center;
   }
 
-  /* ---------------------------------------------------------
-     ALL EDITORIAL SECTION HEADINGS
-  --------------------------------------------------------- */
+  nav {
+    justify-content: flex-start !important;
 
-  section h2.editorial {
-    max-width: 100%;
+    padding-inline: 20px;
 
-    overflow-wrap: anywhere;
+    overflow-x: auto;
 
-    letter-spacing: -0.04em !important;
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Prevent oversized section headers */
-
-  #story h2,
-  #achievements h2,
-  #skills h2,
-  #projects h2,
-  #contact h2 {
-    font-size: clamp(3rem, 13vw, 5.5rem) !important;
-
-    line-height: 0.88 !important;
+  nav::-webkit-scrollbar {
+    display: none;
   }
 
-  /* ---------------------------------------------------------
-     STORY
-  --------------------------------------------------------- */
+  nav a,
+  nav span {
+    flex: 0 0 auto;
+  }
+}
 
-  #story h3,
-  #achievements h3,
-  #skills h3,
-  #projects h3,
-  #contact h3 {
-    overflow-wrap: anywhere;
+/* =========================================================
+   MOBILE INTRO
+========================================================= */
+
+@media (max-width: 640px) {
+  .intro-newspaper-wrap {
+    width: 90vw;
   }
 
-  /* ---------------------------------------------------------
-     CONTACT DIRECTORY
-  --------------------------------------------------------- */
+  .intro-newspaper-body {
+    width: 90vw;
 
-  #contact a.group {
-    gap: 14px;
+    aspect-ratio: 1.35 / 1;
   }
 
-  /* Prevent contact labels from overflowing */
-
-  #contact .editorial {
-    overflow-wrap: anywhere;
+  .intro-newspaper-content {
+    padding: 18px;
   }
 
-  /* ---------------------------------------------------------
-     MODAL
-  --------------------------------------------------------- */
+  .intro-np-kicker {
+    margin-bottom: 10px;
 
-  .case-impact,
-  .case-unfold {
-    width: calc(100vw - 32px) !important;
-    max-width: calc(100vw - 32px) !important;
+    font-size: 8px;
+
+    letter-spacing: 0.3em;
+  }
+
+  .intro-np-title {
+    font-size: clamp(24px, 8vw, 40px);
+
+    line-height: 0.9;
+  }
+
+  .intro-np-meta {
+    gap: 8px;
+
+    margin-top: 14px;
+    padding-top: 10px;
+
+    font-size: 7px;
+
+    letter-spacing: 0.1em;
+  }
+}
+
+/* =========================================================
+   MOBILE CASE FILES
+========================================================= */
+
+@media (max-width: 640px) {
+  .case-modal {
+    align-items: flex-end;
+
+    padding: 0;
+  }
+
+  .case-modal-shell {
+    width: 100%;
+    height: min(88dvh, 760px);
+    max-height: 88dvh;
+
+    border-radius:
+      16px
+      16px
+      0
+      0;
+  }
+
+  .case-modal-scroll {
+    height: 100%;
+    max-height: 88dvh;
+
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+
+    border-width: 2px 0 0;
+
+    touch-action: pan-y;
+  }
+
+  .case-modal-scroll > div {
+    padding:
+      28px
+      20px
+      max(32px, env(safe-area-inset-bottom))
+      !important;
+  }
+
+  /* Prevent mobile case-file text from becoming absurdly large */
+  .case-modal-scroll h1 {
+    font-size: clamp(2rem, 10vw, 3.25rem) !important;
+    line-height: 0.95 !important;
+  }
+
+  .case-modal-scroll h2 {
+    font-size: clamp(1.6rem, 8vw, 2.4rem) !important;
+    line-height: 1 !important;
+  }
+
+  .case-modal-scroll h3 {
+    font-size: clamp(1.25rem, 6vw, 1.8rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .case-modal-scroll p {
+    font-size: clamp(1rem, 4.8vw, 1.28rem) !important;
+    line-height: 1.65 !important;
   }
 }
 
@@ -912,118 +965,35 @@ span {
    SMALL PHONES
 ========================================================= */
 
-@media (max-width: 480px) {
-  main {
-    padding-left: 6px !important;
-    padding-right: 6px !important;
+@media (max-width: 420px) {
+  #home > div:last-child h2 {
+    font-size: clamp(50px, 17vw, 78px) !important;
   }
 
-  /* Header */
-
-  main > section:first-child > header {
-    grid-template-columns:
-      minmax(0, 0.85fr)
-      minmax(0, 1.8fr)
-      minmax(0, 0.85fr);
-  }
-
-  main > section:first-child > header h1 {
-    font-size: 1.32rem !important;
-
-    letter-spacing: 0.06em !important;
-  }
-
-  main > section:first-child > header > p {
-    font-size: 0.47rem !important;
-  }
-
-  /* Nav */
-
-  main > section:first-child > nav {
-    gap: 8px 10px !important;
-  }
-
-  main > section:first-child > nav a,
-  main > section:first-child > nav span {
-    font-size: 0.5rem !important;
-  }
-
-  /* Hero */
-
-  main > section:first-child > section#home > div:first-child,
-  main > section:first-child > section#home > div:last-child {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
-
-  /* Main name */
-
-  main > section:first-child > section#home > div:last-child h2 {
-    font-size: clamp(3rem, 15vw, 4.7rem) !important;
-
-    line-height: 0.84 !important;
-  }
-
-  /* Wanted */
-
-  main > section:first-child > section#home > div:first-child h2 {
-    font-size: clamp(3rem, 14vw, 4.8rem) !important;
-  }
-
-  /* Intro */
-
-  .intro-newspaper {
+  .intro-newspaper-body {
     width: 92vw;
   }
 
-  .intro-newspaper-content {
-    padding: 18px;
+  .case-modal-scroll > div {
+    padding-inline: 16px !important;
   }
 
-  .intro-title {
-    font-size: clamp(1.9rem, 9vw, 3rem);
-  }
-
-  .intro-kicker {
-    font-size: 0.43rem;
-
-    letter-spacing: 0.32em;
-  }
-
-  .intro-meta {
-    font-size: 0.4rem;
-
-    letter-spacing: 0.14em;
+  .case-modal-scroll p {
+    font-size: clamp(0.98rem, 4.6vw, 1.18rem) !important;
   }
 }
 
 /* =========================================================
-   TABLET
-========================================================= */
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  main > section:first-child > header h1 {
-    font-size: 2rem !important;
-  }
-
-  main > section:first-child > section#home {
-    min-height: auto !important;
-  }
-}
-
-/* =========================================================
-   ACCESSIBILITY
+   REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
-
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

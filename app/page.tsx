@@ -2151,237 +2151,155 @@ export default function Home() {
       *========================================================= */}
 
       {activeCaseData && (
-
         <div
-
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/45 px-4 py-8 backdrop-blur-[2px]"
-
+          className="fixed inset-0 z-[100] bg-black/45 px-3 py-4 backdrop-blur-[2px] sm:px-4 sm:py-8"
           onClick={() => setActiveCase(null)}
-
         >
-
           <div
-
-            className="relative w-full max-w-5xl animate-[folderAppear_0.5s_ease-out]"
-
+            className="case-modal-scroll h-full w-full overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
             onClick={(event) => event.stopPropagation()}
-
           >
+            <div className="relative mx-auto w-full max-w-5xl py-12 sm:py-16">
+              {/* Close */}
+              <button
+                type="button"
+                onClick={() => setActiveCase(null)}
+                className="absolute right-0 top-2 z-40 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-[var(--paper)] transition hover:text-white sm:top-4"
+              >
+                Close File
+                <span className="case-close-icon">×</span>
+              </button>
 
-            {/* Close */}
-
-            <button
-
-              type="button"
-
-              onClick={() => setActiveCase(null)}
-
-              className="absolute right-0 top-0 z-30 -translate-y-12 text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--paper)] transition hover:text-white"
-
-            >
-
-              Close File ×
-
-            </button>
-
-            {/* Folder tab */}
-
-            <div className="relative z-10 ml-5 w-fit rounded-t-md border-2 border-b-0 border-[var(--ink)] bg-[var(--paper-dark)] px-7 py-3">
-
-              <p className="text-[9px] font-black uppercase tracking-[0.3em]">
-
-                {activeCaseData.number}
-
-              </p>
-
-            </div>
-
-            {/* Folder */}
-
-            <div className="relative border-2 border-[var(--ink)] bg-[var(--paper-dark)] p-3 shadow-[12px_14px_0_rgba(23,19,15,0.4)] md:p-5">
-
-              {/* Folder flap */}
-
-              <div className="pointer-events-none absolute left-0 top-0 z-20 h-20 w-full origin-top border-b-2 border-[var(--ink)] bg-[var(--paper)] shadow-md animate-[folderOpen_0.7s_ease-out]">
-
-                <div className="absolute right-6 top-4 text-2xl animate-[paperclip_1.5s_ease-in-out_infinite]">
-
-                  📎
-
-                </div>
-
+              {/* Folder tab */}
+              <div className="relative z-10 ml-3 w-fit rounded-t-md border-2 border-b-0 border-[var(--ink)] bg-[var(--paper-dark)] px-4 py-2 sm:ml-5 sm:px-7 sm:py-3">
+                <p className="text-[8px] font-black uppercase tracking-[0.25em] sm:text-[9px] sm:tracking-[0.3em]">
+                  {activeCaseData.number}
+                </p>
               </div>
 
-              {/* Paper dossier */}
+              {/* Folder */}
+              <div className="relative border-2 border-[var(--ink)] bg-[var(--paper-dark)] p-2 shadow-[8px_10px_0_rgba(23,19,15,0.4)] animate-[folderAppear_0.35s_ease-out] sm:p-4 sm:shadow-[12px_14px_0_rgba(23,19,15,0.4)]">
 
-              <div className="relative mt-14 min-h-[620px] border border-[var(--ink)] bg-[var(--paper-light)] p-6 pt-10 shadow-[5px_6px_0_rgba(23,19,15,0.2)] animate-[paperSlide_0.65s_ease-out] md:min-h-[680px] md:p-10 md:pt-14">
-
-                {/* Header */}
-
-                <div className="flex flex-col justify-between gap-6 border-b-2 border-[var(--ink)] pb-6 md:flex-row md:items-start">
-
-                  <div>
-
-                    <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-[var(--red)]">
-
-                      {activeCaseData.label}
-
-                    </p>
-
-                    <h2 className="editorial mt-3 text-4xl font-black leading-[0.9] md:text-6xl">
-
-                      {activeCaseData.title}
-
-                    </h2>
-
+                {/* Folder flap */}
+                <div className="pointer-events-none absolute left-0 top-0 z-20 h-14 w-full origin-top border-b-2 border-[var(--ink)] bg-[var(--paper)] shadow-md animate-[folderOpen_0.42s_ease-out] sm:h-20">
+                  <div className="absolute right-4 top-3 sm:right-6 sm:top-4">
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-5 w-5 animate-[paperclip_1.2s_ease-in-out_infinite] sm:h-6 sm:w-6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                    </svg>
                   </div>
-
-                  <div className="w-fit border-2 border-[var(--red)] px-4 py-2 text-center">
-
-                    <p className="text-[8px] font-bold uppercase tracking-[0.25em]">
-
-                      Status
-
-                    </p>
-
-                    <p className="mt-1 text-[9px] font-black uppercase tracking-[0.15em] text-[var(--red)]">
-
-                      {activeCaseData.status}
-
-                    </p>
-
-                  </div>
-
                 </div>
 
-                {/* Archive strip */}
+                {/* Paper dossier */}
+                <div className="relative mt-10 border border-[var(--ink)] bg-[var(--paper-light)] p-5 pt-8 shadow-[4px_5px_0_rgba(23,19,15,0.2)] animate-[paperSlide_0.45s_ease-out] sm:mt-14 sm:min-h-[680px] sm:p-10 sm:pt-14">
 
-                <div className="mt-5 flex flex-col justify-between gap-2 border-b border-[var(--ink)] pb-4 text-[9px] font-bold uppercase tracking-[0.22em] md:flex-row">
+                  {/* Header */}
+                  <div className="flex flex-col gap-5 border-b-2 border-[var(--ink)] pb-5 sm:gap-6 sm:pb-6 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <p className="text-[8px] font-bold uppercase tracking-[0.28em] text-[var(--red)] sm:text-[9px] sm:tracking-[0.35em]">
+                        {activeCaseData.label}
+                      </p>
 
-                  <span>{activeCaseData.number}</span>
-
-                  <span>Archived By The Archisman Daily</span>
-
-                </div>
-
-                {/* Content */}
-
-                <div className="mt-8 grid gap-8 md:grid-cols-2">
-
-                  <div className="border-t border-[var(--ink)] pt-4">
-
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--red)]">
-
-                      01 / The Problem
-
-                    </p>
-
-                    <p className="newspaper-serif mt-4 text-base leading-relaxed md:text-lg">
-
-                      {activeCaseData.problem}
-
-                    </p>
-
-                  </div>
-
-                  <div className="border-t border-[var(--ink)] pt-4">
-
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--red)]">
-
-                      02 / The Solution
-
-                    </p>
-
-                    <p className="newspaper-serif mt-4 text-base leading-relaxed md:text-lg">
-
-                      {activeCaseData.solution}
-
-                    </p>
-
-                  </div>
-
-                  <div className="border-t border-[var(--ink)] pt-4">
-
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--red)]">
-
-                      03 / My Role
-
-                    </p>
-
-                    <p className="newspaper-serif mt-4 text-base leading-relaxed md:text-lg">
-
-                      {activeCaseData.role}
-
-                    </p>
-
-                  </div>
-
-                  <div className="border-t border-[var(--ink)] pt-4">
-
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--red)]">
-
-                      04 / Evidence Locker
-
-                    </p>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-
-                      {activeCaseData.stack.map((tech) => (
-
-                        <span
-
-                          key={tech}
-
-                          className="border border-[var(--ink)] px-3 py-2 text-[9px] font-bold uppercase tracking-[0.15em]"
-
-                        >
-
-                          {tech}
-
-                        </span>
-
-                      ))}
-
+                      <h2 className="editorial mt-3 text-[2rem] font-black leading-[0.9] sm:text-4xl md:text-6xl">
+                        {activeCaseData.title}
+                      </h2>
                     </div>
 
+                    <div className="w-fit border-2 border-[var(--red)] px-3 py-2 text-center sm:px-4">
+                      <p className="text-[7px] font-bold uppercase tracking-[0.22em] sm:text-[8px] sm:tracking-[0.25em]">
+                        Status
+                      </p>
+
+                      <p className="mt-1 text-[8px] font-black uppercase tracking-[0.12em] text-[var(--red)] sm:text-[9px] sm:tracking-[0.15em]">
+                        {activeCaseData.status}
+                      </p>
+                    </div>
                   </div>
 
+                  {/* Archive strip */}
+                  <div className="mt-4 flex flex-col gap-2 border-b border-[var(--ink)] pb-4 text-[8px] font-bold uppercase tracking-[0.18em] sm:mt-5 sm:text-[9px] sm:tracking-[0.22em] md:flex-row md:justify-between">
+                    <span>{activeCaseData.number}</span>
+                    <span>Archived By The Archisman Daily</span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="mt-7 grid gap-7 sm:mt-8 sm:gap-8 md:grid-cols-2">
+
+                    <div className="border-t border-[var(--ink)] pt-4">
+                      <p className="text-[8px] font-bold uppercase tracking-[0.25em] text-[var(--red)] sm:text-[9px] sm:tracking-[0.3em]">
+                        01 / The Problem
+                      </p>
+
+                      <p className="newspaper-serif mt-4 text-[15px] leading-7 sm:text-base sm:leading-8 md:text-lg md:leading-relaxed">
+                        {activeCaseData.problem}
+                      </p>
+                    </div>
+
+                    <div className="border-t border-[var(--ink)] pt-4">
+                      <p className="text-[8px] font-bold uppercase tracking-[0.25em] text-[var(--red)] sm:text-[9px] sm:tracking-[0.3em]">
+                        02 / The Solution
+                      </p>
+
+                      <p className="newspaper-serif mt-4 text-[15px] leading-7 sm:text-base sm:leading-8 md:text-lg md:leading-relaxed">
+                        {activeCaseData.solution}
+                      </p>
+                    </div>
+
+                    <div className="border-t border-[var(--ink)] pt-4">
+                      <p className="text-[8px] font-bold uppercase tracking-[0.25em] text-[var(--red)] sm:text-[9px] sm:tracking-[0.3em]">
+                        03 / My Role
+                      </p>
+
+                      <p className="newspaper-serif mt-4 text-[15px] leading-7 sm:text-base sm:leading-8 md:text-lg md:leading-relaxed">
+                        {activeCaseData.role}
+                      </p>
+                    </div>
+
+                    <div className="border-t border-[var(--ink)] pt-4">
+                      <p className="text-[8px] font-bold uppercase tracking-[0.25em] text-[var(--red)] sm:text-[9px] sm:tracking-[0.3em]">
+                        04 / Evidence Locker
+                      </p>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {activeCaseData.stack.map((tech) => (
+                          <span
+                            key={tech}
+                            className="border border-[var(--ink)] px-2.5 py-1.5 text-[8px] font-bold uppercase tracking-[0.12em] sm:px-3 sm:py-2 sm:text-[9px] sm:tracking-[0.15em]"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="mt-8 flex flex-col gap-4 border-t-2 border-[var(--ink)] pt-5 sm:mt-10 sm:gap-5 sm:pt-6 md:flex-row md:items-center md:justify-between">
+                    <p className="editorial text-xl font-black sm:text-2xl">
+                      End Of Case File.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveCase(null)}
+                      className="w-full border border-[var(--ink)] px-5 py-3 text-[8px] font-bold uppercase tracking-[0.22em] transition hover:border-[var(--red)] hover:text-[var(--red)] sm:w-auto sm:text-[9px] sm:tracking-[0.25em]"
+                    >
+                      Close & Return
+                    </button>
+                  </div>
                 </div>
-
-                {/* Footer */}
-
-                <div className="mt-10 flex flex-col justify-between gap-5 border-t-2 border-[var(--ink)] pt-6 md:flex-row md:items-center">
-
-                  <p className="editorial text-2xl font-black">
-
-                    End Of Case File.
-
-                  </p>
-
-                  <button
-
-                    type="button"
-
-                    onClick={() => setActiveCase(null)}
-
-                    className="border border-[var(--ink)] px-5 py-3 text-[9px] font-bold uppercase tracking-[0.25em] transition hover:border-[var(--red)] hover:text-[var(--red)]"
-
-                  >
-
-                    Close & Return ×
-
-                  </button>
-
-                </div>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       )}
 
     </>
