@@ -4,7 +4,10 @@ import {
   Playfair_Display,
   IBM_Plex_Mono,
 } from "next/font/google";
+
 import "./globals.css";
+import MusicPlayer from "./components/MusicPlayer";
+import { PageTurnProvider } from "./components/PageTurnProvider";
 
 const bodoni = Bodoni_Moda({
   subsets: ["latin"],
@@ -25,6 +28,35 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "The Archisman Daily",
   description: "The personal portfolio of Archisman Kundu",
+
+  metadataBase: new URL(
+    "https://thearchismandaily.vercel.app"
+  ),
+
+  openGraph: {
+    title: "The Archisman Daily",
+    description: "The personal portfolio of Archisman Kundu",
+    url: "https://thearchismandaily.vercel.app",
+    siteName: "The Archisman Daily",
+
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "The Archisman Daily",
+      },
+    ],
+
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "The Archisman Daily",
+    description: "The personal portfolio of Archisman Kundu",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -37,7 +69,11 @@ export default function RootLayout({
       <body
         className={`${bodoni.variable} ${playfair.variable} ${mono.variable}`}
       >
-        {children}
+        <PageTurnProvider>
+          {children}
+        </PageTurnProvider>
+
+        <MusicPlayer />
       </body>
     </html>
   );

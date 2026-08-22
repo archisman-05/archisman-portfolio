@@ -997,3 +997,267 @@ main {
     scroll-behavior: auto !important;
   }
 }
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hero-actions button,
+.cv-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+  padding: 0.9rem 1.8rem;
+
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.hero-actions button:hover,
+.cv-download:hover {
+  background: #1d1814;
+  color: #f2ead8;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions button,
+  .cv-download {
+    width: 100%;
+  }
+}
+@keyframes musicPulse {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.music-bar {
+  display: block;
+  background: var(--ink);
+  transform-origin: bottom;
+  animation: musicPulse 0.8s ease-in-out infinite;
+}
+
+.music-bar-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.music-bar-delay-2 {
+  animation-delay: 0.4s;
+}
+/* ================================
+   NEWSPAPER PAGE TURN TRANSITION
+================================ */
+
+.page-turn-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  pointer-events: all;
+
+  overflow: hidden;
+
+  perspective: 1800px;
+
+  background: transparent;
+}
+
+.page-turn-sheet {
+  position: absolute;
+  inset: 0;
+
+  transform-origin: left center;
+
+  background: var(--paper);
+
+  animation: newspaperPageTurn 1.45s
+    cubic-bezier(0.76, 0, 0.24, 1)
+    forwards;
+
+  transform-style: preserve-3d;
+
+  box-shadow:
+    -12px 0 35px rgba(0, 0, 0, 0.18);
+}
+
+.page-turn-front,
+.page-turn-back {
+  position: absolute;
+  inset: 0;
+
+  backface-visibility: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 12%,
+      transparent 88%,
+      rgba(0, 0, 0, 0.08)
+    ),
+    var(--paper);
+}
+
+.page-turn-back {
+  transform: rotateY(180deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.08),
+      transparent 15%
+    ),
+    var(--paper);
+}
+
+/* Editorial details */
+
+.page-turn-front {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+}
+
+.page-turn-rule {
+  width: min(80%, 900px);
+  height: 1px;
+
+  background: var(--ink);
+
+  margin-bottom: 24px;
+}
+
+.page-turn-edition {
+  margin: 0;
+
+  font-family: var(--font-bodoni);
+
+  font-size: clamp(2rem, 6vw, 6rem);
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+}
+
+.page-turn-subtitle {
+  margin-top: 12px;
+
+  font-family: var(--font-mono);
+
+  font-size: 9px;
+
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.page-turn-lines {
+  width: min(72%, 760px);
+
+  margin-top: 42px;
+
+  display: grid;
+  gap: 10px;
+}
+
+.page-turn-lines span {
+  display: block;
+
+  height: 1px;
+
+  background: var(--ink);
+
+  opacity: 0.35;
+}
+
+.page-turn-lines span:nth-child(2) {
+  width: 82%;
+}
+
+.page-turn-lines span:nth-child(3) {
+  width: 91%;
+}
+
+.page-turn-lines span:nth-child(4) {
+  width: 68%;
+}
+
+@keyframes newspaperPageTurn {
+  0% {
+    transform:
+      rotateY(0deg)
+      translateX(0);
+
+    filter: brightness(1);
+  }
+
+  35% {
+    transform:
+      rotateY(-32deg)
+      translateX(-4%);
+
+    filter: brightness(0.92);
+  }
+
+  70% {
+    transform:
+      rotateY(-92deg)
+      translateX(-28%);
+
+    filter: brightness(0.7);
+  }
+
+  100% {
+    transform:
+      rotateY(-180deg)
+      translateX(-100%);
+
+    filter: brightness(0.9);
+  }
+}
+
+@media (max-width: 640px) {
+  .page-turn-front {
+    padding: 24px;
+  }
+
+  .page-turn-edition {
+    text-align: center;
+  }
+
+  .page-turn-subtitle {
+    text-align: center;
+    line-height: 1.6;
+  }
+}
