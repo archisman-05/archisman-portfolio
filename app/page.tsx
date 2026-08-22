@@ -541,6 +541,13 @@ export default function Home() {
                 >
                   My Hobbies
                 </button>
+                <button
+                  type="button"
+                  onClick={() => navigateWithPageTurn("/wanted")}
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+                >
+                  Create Your own Wanted Poster
+                </button>
               </div>
               <blockquote className="mt-5 max-w-lg border-l-2 border-[var(--ink)] pl-5 text-base italic md:text-xl">
 
@@ -2202,31 +2209,34 @@ export default function Home() {
 
           </div>
 
-          <footer className="flex flex-col items-center justify-between gap-5 px-6 py-6 text-center md:flex-row md:px-10 md:text-left">
+          {/* Footer */}
+          <div className="mt-8 border-t-2 border-[var(--ink)] pt-5 sm:mt-10 sm:pt-6">
+            <div className="grid grid-cols-1 items-center gap-4 text-center md:grid-cols-3 md:gap-6">
 
-            <p className="newspaper-mono text-[9px] font-bold uppercase tracking-[0.28em]">
+              {/* Left footnote */}
+              <div className="md:text-left">
+                <p className="text-[8px] font-bold uppercase tracking-[0.22em] text-[var(--ink)]/70 sm:text-[9px]">
+                  © 2026 Archisman Kundu · Background Music: “Pirate Tavern (Full Version!)”
+                  by Magiksolo · Used under the Pixabay Content License
+                </p>
+              </div>
 
-              © {new Date().getFullYear()} Archisman Kundu
-              <span className="mx-2">•</span>
-              Background music: “Pirate Tavern (Full Version!)” by Magiksolo
-              <span className="mx-2">•</span>
-              Used under the Pixabay Content License
+              {/* CENTER TITLE */}
+              <div className="flex justify-center">
+                <p className="whitespace-nowrap font-serif text-xl font-black leading-none text-[var(--ink)] sm:text-2xl">
+                  The Archisman Daily
+                </p>
+              </div>
 
-            </p>
+              {/* Right footnote */}
+              <div className="md:text-right">
+                <p className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--ink)]/70 sm:text-[9px]">
+                  Est. 2005 · No Final Edition Yet.
+                </p>
+              </div>
 
-            <p className="editorial text-xl font-black md:text-2xl">
-
-              The Archisman Daily
-
-            </p>
-
-            <p className="newspaper-mono text-[9px] font-bold uppercase tracking-[0.28em]">
-
-              Est. 2005 • No Final Edition Yet.
-
-            </p>
-
-          </footer>
+            </div>
+          </div>
 
         </section>
 
@@ -2370,37 +2380,65 @@ export default function Home() {
                   </div>
 
                   {/* Footer */}
+                  {/* Footer */}
                   <div className="relative mt-8 border-t-2 border-[var(--ink)] pt-5 sm:mt-10 sm:pt-6">
 
-                    {/* Left */}
-                    <div className="absolute left-0 top-5 max-w-[42%] sm:top-6">
+
+                    {/* CENTERED CLOSE FILE */}
+                    <div className="flex min-h-[48px] items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setActiveCase(null)}
+                        className="group flex items-center gap-3 border-b border-[var(--ink)] pb-1 font-serif text-2xl font-black leading-none text-[var(--ink)] transition-all duration-300 hover:opacity-60 sm:text-3xl"
+                      >
+                        <span>Close File</span>
+
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--ink)] font-sans text-base font-normal transition-transform duration-300 group-hover:rotate-90">
+                          ×
+                        </span>
+                      </button>
+                    </div>
+
+                  </div>
+                  {/* Close File */}
+                  {/* <button
+                      type="button"
+                      onClick={() => setActiveCase(null)}
+                      <p className="whitespace-nowrap font-serif text-2xl font-black leading-none text-[var(--ink)] sm:text-3xl" >
+                      Close File
+                      </p>
+                      <span className="case-close-icon">×</span>
+                    </button> */}
+
+                  {/* Left */}
+                  {/* <div className="absolute left-0 top-5 max-w-[42%] sm:top-6">
                       <p className="text-[8px] font-bold uppercase tracking-[0.22em] text-[var(--ink)]/70 sm:text-[9px]">
                         © 2026 Archisman Kundu · Background Music: “Pirate Tavern (Full Version!)”
                         by Magiksolo · Used under the Pixabay Content License
                       </p>
-                    </div>
+                    </div> */}
 
-                    {/* PERFECTLY CENTERED TITLE */}
-                    <div className="flex min-h-[48px] items-center justify-center">
-                      <p className="whitespace-nowrap font-serif text-2xl font-black leading-none text-[var(--ink)] sm:text-3xl">
-                        The Archisman Daily
-                      </p>
-                    </div>
+                  {/* PERFECTLY CENTERED TITLE */}
+                  {/* // <div className="flex min-h-[48px] items-center justify-center">
+                    //   <p className="whitespace-nowrap font-serif text-2xl font-black leading-none text-[var(--ink)] sm:text-3xl">
+                    //     The Archisman Daily
+                    //   </p>
+                    // </div> */}
 
-                    {/* Right */}
-                    <div className="absolute right-0 top-5 max-w-[25%] text-right sm:top-6">
+                  {/* Right */}
+                  {/* <div className="absolute right-0 top-5 max-w-[25%] text-right sm:top-6">
                       <p className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--ink)]/70 sm:text-[9px]">
                         Est. 2005 · No Final Edition Yet.
                       </p>
-                    </div>
+                    </div> */}
 
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      )
+}
 
     </>
 
