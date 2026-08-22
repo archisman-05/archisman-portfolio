@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
+/* =========================================================
+   THE ARCHISMAN DAILY
+   CLEAN GLOBAL STYLES — TAILWIND v4
+========================================================= */
+
 :root {
-  --paper: #d8c7a5;
-  --paper-light: #e5d7ba;
-  --paper-dark: #b7a88e;
+  --paper: #efe4c8;
+  --paper-light: #f5edd8;
+  --paper-dark: #dcc9a6;
+
   --ink: #17130f;
   --ink-muted: #554b3d;
+
   --red: #8c2f24;
   --gold: #b38a3d;
-  --night: #11100e;
+  --night: #05060d;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
 
 html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
   scroll-behavior: smooth;
+  background: var(--paper);
 }
 
 body {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
+
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+
   color: var(--ink);
   background-color: var(--paper);
 
@@ -30,18 +50,56 @@ body {
       transparent 1px
     ),
     radial-gradient(
-      rgba(0, 0, 0, 0.05) 1px,
+      rgba(0, 0, 0, 0.055) 1px,
       transparent 1px
     );
 
-  background-size: 4px 4px, 7px 7px;
+  background-size:
+    4px 4px,
+    7px 7px;
 
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
-::selection {
-  background: var(--ink);
-  color: var(--paper);
+/* Prevent width explosions */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Important for grid/flex children */
+
+main,
+section,
+header,
+footer,
+article,
+div {
+  min-width: 0;
+}
+
+/* Media safety */
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 a {
@@ -49,397 +107,507 @@ a {
   text-decoration: none;
 }
 
-button,
-a {
-  font: inherit;
-}
-
 button {
   cursor: pointer;
 }
 
-.editorial {
-  font-family: var(--font-bodoni), serif;
+/* =========================================================
+   HORIZONTAL OVERFLOW PROTECTION
+========================================================= */
+
+#__next,
+main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
-.newspaper-serif {
-  font-family: var(--font-playfair), serif;
+/* Prevent large editorial text from pushing viewport */
+
+h1,
+h2,
+h3,
+h4,
+p,
+blockquote {
+  min-width: 0;
+  max-width: 100%;
 }
 
-.newspaper-mono {
-  font-family: var(--font-mono), monospace;
+/* Long words must never create horizontal scrolling */
+
+p,
+h1,
+h2,
+h3,
+h4,
+blockquote {
+  overflow-wrap: break-word;
 }
 
 /* =========================================================
-   INTRO / NEWSPAPER DELIVERY ANIMATION
+   TYPOGRAPHY UTILITIES
 ========================================================= */
 
-@keyframes introFadeIn {
+.editorial {
+  font-family:
+    var(--font-bodoni),
+    Georgia,
+    "Times New Roman",
+    serif;
+}
+
+.newspaper-serif {
+  font-family:
+    var(--font-playfair),
+    Georgia,
+    "Times New Roman",
+    serif;
+}
+
+.newspaper-mono {
+  font-family:
+    var(--font-mono),
+    ui-monospace,
+    monospace;
+}
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+/* =========================================================
+   LINK / BUTTON POLISH
+========================================================= */
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keep hover transitions smooth without changing design */
+
+a {
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+/* =========================================================
+   FIX EMOJI-STYLE SYMBOL RENDERING
+========================================================= */
+
+/*
+  Text arrows and stars should inherit the site's typography.
+*/
+
+span {
+  font-variant-emoji: text;
+}
+
+/* =========================================================
+   INTRO NEWSPAPER ANIMATION
+========================================================= */
+
+/* Dark full-screen intro */
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100dvh;
+
+  padding: 18px;
+
+  overflow: hidden;
+
+  background: var(--night);
+}
+
+/* Tilted newspaper */
+
+.intro-newspaper {
+  position: relative;
+
+  width: min(88vw, 460px);
+  max-width: 100%;
+
+  aspect-ratio: 1.38 / 1;
+
+  overflow: hidden;
+
+  background-color: var(--paper);
+
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.2) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      rgba(0, 0, 0, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    4px 4px,
+    7px 7px;
+
+  border: 2px solid var(--ink);
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.65),
+    inset 0 0 35px rgba(70, 50, 25, 0.08);
+
+  transform-origin: center;
+
+  animation:
+    newspaper-arrive 1.05s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      forwards,
+    newspaper-unfold 1.15s
+      0.65s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      forwards;
+}
+
+/* Newspaper content */
+
+.intro-newspaper-content {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  padding: clamp(20px, 5vw, 36px);
+
+  text-align: center;
+}
+
+.intro-kicker {
+  margin-bottom: clamp(10px, 2vw, 18px);
+
+  color: var(--red);
+
+  font-size: clamp(0.48rem, 1.6vw, 0.78rem);
+  font-weight: 800;
+
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+
+  opacity: 0;
+
+  animation:
+    intro-content-reveal
+      0.55s
+      ease-out
+      1.3s
+      forwards;
+}
+
+.intro-title {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-family:
+    var(--font-bodoni),
+    Georgia,
+    serif;
+
+  font-size: clamp(2.1rem, 7.5vw, 4.8rem);
+  font-weight: 900;
+
+  line-height: 0.84;
+
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  opacity: 0;
+
+  animation:
+    intro-content-reveal
+      0.65s
+      ease-out
+      1.4s
+      forwards;
+}
+
+.intro-meta {
+  margin-top: clamp(14px, 3vw, 24px);
+
+  color: var(--ink);
+
+  font-size: clamp(0.45rem, 1.2vw, 0.72rem);
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  opacity: 0;
+
+  animation:
+    intro-content-reveal
+      0.55s
+      ease-out
+      1.6s
+      forwards;
+}
+
+/* Exit class */
+
+.intro-overlay.exit {
+  animation:
+    intro-fade-out
+      0.7s
+      ease
+      forwards;
+}
+
+/* =========================================================
+   INTRO KEYFRAMES
+========================================================= */
+
+@keyframes newspaper-arrive {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(130vh)
+      rotate(-10deg)
+      scale(0.62);
+  }
+
+  65% {
+    opacity: 1;
+
+    transform:
+      translateY(-1vh)
+      rotate(-5deg)
+      scale(1.03);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      rotate(-2.5deg)
+      scale(1);
+  }
+}
+
+@keyframes newspaper-unfold {
+  0% {
+    transform:
+      rotate(-2.5deg)
+      scaleX(0.18)
+      scaleY(0.72);
+  }
+
+  55% {
+    transform:
+      rotate(-1deg)
+      scaleX(1.04)
+      scaleY(1.03);
+  }
+
+  75% {
+    transform:
+      rotate(-2deg)
+      scaleX(0.99)
+      scaleY(0.98);
+  }
+
+  100% {
+    transform:
+      rotate(-2deg)
+      scaleX(1)
+      scaleY(1);
+  }
+}
+
+@keyframes intro-content-reveal {
   from {
     opacity: 0;
+    transform: translateY(16px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes introFadeOut {
+@keyframes intro-fade-out {
   from {
     opacity: 1;
+    visibility: visible;
   }
 
   to {
     opacity: 0;
     visibility: hidden;
-  }
-}
-
-@keyframes moonGlow {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.85;
-    transform: scale(1.06);
-  }
-}
-
-@keyframes starTwinkle {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: scale(0.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.15);
-  }
-}
-
-@keyframes roadMove {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: -180px 0;
-  }
-}
-
-@keyframes cyclistRide {
-  0% {
-    transform: translateX(-35vw);
-  }
-
-  70% {
-    transform: translateX(43vw);
-  }
-
-  100% {
-    transform: translateX(120vw);
-  }
-}
-
-@keyframes cyclistBob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes wheelSpin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pedalMove {
-  0%,
-  100% {
-    transform: rotate(-25deg);
-  }
-
-  50% {
-    transform: rotate(25deg);
-  }
-}
-
-@keyframes newspaperThrow {
-  0% {
-    opacity: 0;
-    transform: translate(0, 0) rotate(-18deg) scale(0.45);
-  }
-
-  12% {
-    opacity: 1;
-  }
-
-  55% {
-    opacity: 1;
-    transform: translate(-14vw, -20vh) rotate(150deg) scale(0.7);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(-38vw, 2vh) rotate(540deg) scale(1);
-  }
-}
-
-@keyframes newspaperLand {
-  0% {
-    opacity: 0;
-    transform: scale(0.25) rotate(-25deg);
-  }
-
-  35% {
-    opacity: 1;
-    transform: scale(0.65) rotate(10deg);
-  }
-
-  65% {
-    transform: scale(1.06) rotate(-3deg);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes newspaperUnfold {
-  0% {
-    transform: scaleX(0.18) scaleY(0.72);
-  }
-
-  45% {
-    transform: scaleX(1.04) scaleY(0.92);
-  }
-
-  75% {
-    transform: scaleX(0.98) scaleY(1.03);
-  }
-
-  100% {
-    transform: scaleX(1) scaleY(1);
-  }
-}
-
-@keyframes mastheadReveal {
-  from {
-    opacity: 0;
-    letter-spacing: 0.7em;
-    transform: translateY(22px);
-  }
-
-  to {
-    opacity: 1;
-    letter-spacing: 0.08em;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dateStamp {
-  0% {
-    opacity: 0;
-    transform: scale(2.2) rotate(-12deg);
-  }
-
-  60% {
-    opacity: 1;
-    transform: scale(0.92) rotate(3deg);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes inkLineReveal {
-  from {
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-
-  to {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-}
-
-@keyframes contentReveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    pointer-events: none;
   }
 }
 
 /* =========================================================
-   INTRO ANIMATION CLASSES
+   CASE FILE MODAL ANIMATIONS
 ========================================================= */
 
-.intro-screen {
-  animation: introFadeIn 0.45s ease-out forwards;
-}
-
-.intro-screen-exit {
-  animation: introFadeOut 0.7s ease-in forwards;
-}
-
-.intro-moon {
-  animation: moonGlow 3s ease-in-out infinite;
-}
-
-.intro-star {
-  animation: starTwinkle 2.2s ease-in-out infinite;
-}
-
-.intro-road {
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 42px,
-      rgba(255, 255, 255, 0.35) 42px,
-      rgba(255, 255, 255, 0.35) 72px
-    );
-
-  animation: roadMove 1.1s linear infinite;
-}
-
-.intro-cyclist-wrapper {
-  animation: cyclistRide 5.2s linear forwards;
-}
-
-.intro-cyclist {
-  animation: cyclistBob 0.45s ease-in-out infinite;
-}
-
-.intro-wheel {
-  transform-origin: center;
-  animation: wheelSpin 0.35s linear infinite;
-}
-
-.intro-pedal {
-  transform-origin: center;
-  animation: pedalMove 0.45s ease-in-out infinite;
-}
-
-.intro-thrown-newspaper {
-  animation: newspaperThrow 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-}
-
-.intro-newspaper-land {
+.case-impact {
   animation:
-    newspaperLand 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-    newspaperUnfold 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+    case-impact
+      0.9s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      forwards;
 }
 
-.intro-masthead {
-  animation: mastheadReveal 0.8s ease-out 1.05s forwards;
-  opacity: 0;
+.case-unfold {
+  animation:
+    case-unfold
+      0.72s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      forwards;
 }
 
-.intro-date {
-  animation: dateStamp 0.55s ease-out 0.55s forwards;
-  opacity: 0;
+.case-date {
+  animation:
+    case-date
+      0.8s
+      ease-out
+      forwards;
 }
 
-.intro-ink-line {
-  animation: inkLineReveal 0.6s ease-out 1.1s forwards;
-  transform: scaleX(0);
+.case-content {
+  animation:
+    case-content
+      0.55s
+      ease-out
+      forwards;
 }
 
-.intro-content {
-  animation: contentReveal 0.65s ease-out 1.25s forwards;
-  opacity: 0;
-}
+.case-paperclip {
+  display: inline-block;
 
-/* =========================================================
-   CASE FILE ANIMATIONS
-========================================================= */
+  animation:
+    case-paperclip
+      1.8s
+      ease-in-out
+      infinite;
+}
 
 @keyframes case-impact {
   0% {
     opacity: 0;
-    transform: translateY(-140vh) rotate(-28deg) scale(0.55);
+
+    transform:
+      translateY(-130vh)
+      rotate(-24deg)
+      scale(0.55);
   }
 
   55% {
     opacity: 1;
-    transform: translateY(2vh) rotate(7deg) scale(1.04);
+
+    transform:
+      translateY(2vh)
+      rotate(6deg)
+      scale(1.04);
   }
 
-  70% {
-    transform: translateY(-1vh) rotate(-3deg) scale(0.99);
-  }
-
-  85% {
-    transform: translateY(0.5vh) rotate(1deg) scale(1.01);
+  75% {
+    transform:
+      translateY(-1vh)
+      rotate(-2deg)
+      scale(0.99);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0) rotate(0deg) scale(1);
+
+    transform:
+      translateY(0)
+      rotate(0deg)
+      scale(1);
   }
 }
 
 @keyframes case-unfold {
   0% {
     opacity: 0;
-    transform: scaleX(0.05) scaleY(0.35);
+
+    transform:
+      scaleX(0.08)
+      scaleY(0.4);
   }
 
   55% {
     opacity: 1;
-    transform: scaleX(1) scaleY(0.35);
+
+    transform:
+      scaleX(1.03)
+      scaleY(0.5);
   }
 
   100% {
     opacity: 1;
-    transform: scaleX(1) scaleY(1);
+
+    transform:
+      scaleX(1)
+      scaleY(1);
   }
 }
 
 @keyframes case-date {
   0% {
     opacity: 0;
-    transform: scale(0.6) rotate(-4deg);
+
+    transform:
+      scale(0.65)
+      rotate(-5deg);
   }
 
   45% {
     opacity: 1;
-    transform: scale(1.08) rotate(2deg);
+
+    transform:
+      scale(1.08)
+      rotate(2deg);
   }
 
   100% {
     opacity: 0;
-    transform: scale(1.3) rotate(0deg);
+
+    transform:
+      scale(1.3)
+      rotate(0deg);
   }
 }
 
 @keyframes case-content {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(22px);
   }
 
   to {
@@ -451,7 +619,7 @@ button {
 @keyframes case-paperclip {
   0%,
   100% {
-    transform: rotate(-12deg);
+    transform: rotate(-10deg);
   }
 
   50% {
@@ -459,24 +627,388 @@ button {
   }
 }
 
-.case-impact {
-  animation: case-impact 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* =========================================================
+   CURRENT PAGE.TSX RESPONSIVE FIXES
+========================================================= */
+
+/*
+  Your current page.tsx header is:
+
+  grid-cols-3
+
+  On mobile that causes:
+  Est. 2005 + title + Kolkata to collide.
+
+  This CSS safely converts it into a mobile layout
+  without changing desktop.
+*/
+
+@media (max-width: 767px) {
+  /* Main page spacing */
+
+  main {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  /* ---------------------------------------------------------
+     FRONT PAGE
+  --------------------------------------------------------- */
+
+  main > section:first-child {
+    height: auto !important;
+    min-height: 100svh;
+    overflow: visible !important;
+  }
+
+  /* Masthead */
+
+  main > section:first-child > header {
+    display: grid !important;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1.7fr)
+      minmax(0, 1fr);
+
+    gap: 6px;
+
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+
+  main > section:first-child > header > p {
+    min-width: 0;
+
+    font-size: 0.55rem !important;
+
+    line-height: 1.25;
+
+    letter-spacing: 0.08em;
+
+    white-space: normal;
+  }
+
+  main > section:first-child > header h1 {
+    font-size: clamp(1.45rem, 7vw, 2rem) !important;
+
+    line-height: 0.92;
+
+    letter-spacing: 0.08em !important;
+
+    overflow-wrap: normal;
+  }
+
+  main > section:first-child > header h1 + p {
+    margin-top: 5px !important;
+
+    font-size: 0.42rem !important;
+
+    line-height: 1.2;
+
+    letter-spacing: 0.18em !important;
+  }
+
+  /* Navigation */
+
+  main > section:first-child > nav {
+    display: flex !important;
+
+    flex-wrap: wrap;
+
+    justify-content: center !important;
+
+    gap: 9px 13px !important;
+
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+
+    overflow-x: visible !important;
+  }
+
+  main > section:first-child > nav a,
+  main > section:first-child > nav span {
+    flex: 0 0 auto;
+
+    font-size: 0.55rem !important;
+
+    letter-spacing: 0.12em !important;
+
+    white-space: nowrap;
+  }
+
+  /* Hero */
+
+  main > section:first-child > section#home {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) !important;
+
+    flex: none !important;
+
+    min-height: 0 !important;
+
+    overflow: visible !important;
+  }
+
+  /* Wanted column */
+
+  main > section:first-child > section#home > div:first-child {
+    padding:
+      28px
+      18px
+      24px !important;
+
+    border-right: 0 !important;
+  }
+
+  main > section:first-child > section#home > div:first-child h2 {
+    font-size: clamp(3.4rem, 15vw, 5.5rem) !important;
+
+    line-height: 0.82 !important;
+  }
+
+  main > section:first-child > section#home > div:first-child > div {
+    width: 100%;
+  }
+
+  /* Wanted image */
+
+  main > section:first-child > section#home img {
+    width: 100% !important;
+
+    height: auto !important;
+
+    max-height: none !important;
+
+    object-fit: contain;
+  }
+
+  /* Reward */
+
+  main > section:first-child > section#home > div:first-child .editorial {
+    max-width: 100%;
+
+    font-size: clamp(2rem, 9vw, 3.4rem) !important;
+
+    white-space: normal;
+  }
+
+  /* Introducing / right side */
+
+  main > section:first-child > section#home > div:last-child {
+    padding:
+      42px
+      18px
+      48px !important;
+  }
+
+  /* Huge Archisman Kundu heading */
+
+  main > section:first-child > section#home > div:last-child h2 {
+    width: 100%;
+
+    max-width: 100%;
+
+    font-size: clamp(3.4rem, 15vw, 5.6rem) !important;
+
+    line-height: 0.82 !important;
+
+    letter-spacing: -0.055em !important;
+
+    overflow-wrap: anywhere;
+  }
+
+  /* Hero paragraph */
+
+  main > section:first-child > section#home > div:last-child .newspaper-serif {
+    font-size: 1.05rem !important;
+
+    line-height: 1.65;
+  }
+
+  /* Buttons */
+
+  main > section:first-child > section#home > div:last-child > div.flex {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) !important;
+
+    width: 100%;
+  }
+
+  main > section:first-child > section#home > div:last-child > div.flex a {
+    width: 100%;
+
+    padding:
+      16px
+      18px !important;
+
+    text-align: center;
+  }
+
+  /* ---------------------------------------------------------
+     ALL EDITORIAL SECTION HEADINGS
+  --------------------------------------------------------- */
+
+  section h2.editorial {
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
+
+    letter-spacing: -0.04em !important;
+  }
+
+  /* Prevent oversized section headers */
+
+  #story h2,
+  #achievements h2,
+  #skills h2,
+  #projects h2,
+  #contact h2 {
+    font-size: clamp(3rem, 13vw, 5.5rem) !important;
+
+    line-height: 0.88 !important;
+  }
+
+  /* ---------------------------------------------------------
+     STORY
+  --------------------------------------------------------- */
+
+  #story h3,
+  #achievements h3,
+  #skills h3,
+  #projects h3,
+  #contact h3 {
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------------------------------------------------------
+     CONTACT DIRECTORY
+  --------------------------------------------------------- */
+
+  #contact a.group {
+    gap: 14px;
+  }
+
+  /* Prevent contact labels from overflowing */
+
+  #contact .editorial {
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------------------------------------------------------
+     MODAL
+  --------------------------------------------------------- */
+
+  .case-impact,
+  .case-unfold {
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+  }
 }
 
-.case-unfold {
-  animation: case-unfold 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+  main {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  /* Header */
+
+  main > section:first-child > header {
+    grid-template-columns:
+      minmax(0, 0.85fr)
+      minmax(0, 1.8fr)
+      minmax(0, 0.85fr);
+  }
+
+  main > section:first-child > header h1 {
+    font-size: 1.32rem !important;
+
+    letter-spacing: 0.06em !important;
+  }
+
+  main > section:first-child > header > p {
+    font-size: 0.47rem !important;
+  }
+
+  /* Nav */
+
+  main > section:first-child > nav {
+    gap: 8px 10px !important;
+  }
+
+  main > section:first-child > nav a,
+  main > section:first-child > nav span {
+    font-size: 0.5rem !important;
+  }
+
+  /* Hero */
+
+  main > section:first-child > section#home > div:first-child,
+  main > section:first-child > section#home > div:last-child {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* Main name */
+
+  main > section:first-child > section#home > div:last-child h2 {
+    font-size: clamp(3rem, 15vw, 4.7rem) !important;
+
+    line-height: 0.84 !important;
+  }
+
+  /* Wanted */
+
+  main > section:first-child > section#home > div:first-child h2 {
+    font-size: clamp(3rem, 14vw, 4.8rem) !important;
+  }
+
+  /* Intro */
+
+  .intro-newspaper {
+    width: 92vw;
+  }
+
+  .intro-newspaper-content {
+    padding: 18px;
+  }
+
+  .intro-title {
+    font-size: clamp(1.9rem, 9vw, 3rem);
+  }
+
+  .intro-kicker {
+    font-size: 0.43rem;
+
+    letter-spacing: 0.32em;
+  }
+
+  .intro-meta {
+    font-size: 0.4rem;
+
+    letter-spacing: 0.14em;
+  }
 }
 
-.case-date {
-  animation: case-date 0.75s ease-out forwards;
-}
+/* =========================================================
+   TABLET
+========================================================= */
 
-.case-content {
-  animation: case-content 0.55s ease-out forwards;
-}
+@media (min-width: 768px) and (max-width: 1023px) {
+  main > section:first-child > header h1 {
+    font-size: 2rem !important;
+  }
 
-.case-paperclip {
-  animation: case-paperclip 1.8s ease-in-out infinite;
+  main > section:first-child > section#home {
+    min-height: auto !important;
+  }
 }
 
 /* =========================================================
@@ -488,233 +1020,10 @@ button {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+
     transition-duration: 0.01ms !important;
   }
 }
-
-@media (max-width: 768px) {
-  .intro-cyclist-wrapper {
-    animation-duration: 4.6s;
-  }
-
-  .intro-thrown-newspaper {
-    animation-duration: 1.5s;
-  }
-}
-.intro-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #05050a;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: introOverlayFadeOut 0.8s ease-in forwards;
-    animation-delay: 3.9s;
-  }
-
-  .intro-newspaper-wrap {
-    position: relative;
-    width: min(82vw, 620px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .intro-newspaper-arrival {
-  opacity: 0;
-  transform: scale(0.35) rotate(-18deg);
-  animation: introNewspaperArrival 1s
-    cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-  .intro-newspaper-body {
-    position: relative;
-    width: min(82vw, 620px);
-    aspect-ratio: 1.45 / 1;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.35),
-        rgba(0, 0, 0, 0.03)
-      ),
-      #e8dfc8;
-    border: 3px solid #17130f;
-    box-shadow:
-      0 30px 90px rgba(0, 0, 0, 0.7),
-      inset 0 0 30px rgba(74, 55, 30, 0.12);
-    overflow: hidden;
-
-    transform: scaleY(0.08);
-    transform-origin: center;
-
-    animation: introNewspaperUnfold 1.15s
-      cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 0.75s;
-  }
-
-  .intro-newspaper-body::before {
-    content: "";
-    position: absolute;
-    inset: 12px;
-    border: 1px solid rgba(23, 19, 15, 0.45);
-    pointer-events: none;
-  }
-
-  .intro-newspaper-fold {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 2px;
-    background: rgba(23, 19, 15, 0.3);
-    transform: scaleX(0);
-    animation: introFoldReveal 0.6s ease-out forwards;
-    animation-delay: 1.5s;
-  }
-
-  .intro-newspaper-content {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-    padding: 30px;
-
-    opacity: 0;
-    transform: translateY(18px);
-
-    animation: introContentFadeIn 0.75s ease-out forwards;
-    animation-delay: 1.55s;
-  }
-
-  .intro-np-kicker {
-    font-size: clamp(9px, 1.5vw, 13px);
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    font-weight: 800;
-    color: #a02a22;
-    margin-bottom: 16px;
-  }
-
-  .intro-np-title {
-    margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(34px, 7vw, 82px);
-    font-weight: 900;
-    line-height: 0.85;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: #17130f;
-  }
-
-  .intro-np-meta {
-    margin-top: 24px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(23, 19, 15, 0.35);
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px 24px;
-
-    font-size: clamp(8px, 1.2vw, 11px);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-weight: 800;
-    color: #17130f;
-  }
-
-  @keyframes introNewspaperArrival {
-    0% {
-      opacity: 0;
-      transform: scale(0.35) rotate(-12deg);
-    }
-
-    60% {
-      opacity: 1;
-      transform: scale(1.04) rotate(2deg);
-    }
-
-    100% {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
-    }
-  }
-
-  @keyframes introNewspaperUnfold {
-    0% {
-      transform: scaleY(0.08);
-    }
-
-    55% {
-      transform: scaleY(1.06);
-    }
-
-    75% {
-      transform: scaleY(0.97);
-    }
-
-    100% {
-      transform: scaleY(1);
-    }
-  }
-
-  @keyframes introFoldReveal {
-    from {
-      transform: scaleX(0);
-      opacity: 0;
-    }
-
-    to {
-      transform: scaleX(1);
-      opacity: 1;
-    }
-  }
-
-  @keyframes introContentFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes introOverlayFadeOut {
-    from {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    to {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .intro-newspaper-wrap {
-      width: 88vw;
-    }
-
-    .intro-newspaper-content {
-      padding: 20px;
-    }
-
-    .intro-np-meta {
-      gap: 10px;
-      letter-spacing: 0.12em;
-    }
-  }
