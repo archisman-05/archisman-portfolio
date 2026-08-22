@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-
-import { useEffect, useState } from "react";
+import { usePageTurn } from "./components/PageTurnProvider";
+import { useEffect, useRef, useState } from "react";
 
 type CaseFile = {
 
@@ -27,14 +27,44 @@ type CaseFile = {
 };
 
 export default function Home() {
+  const { navigateWithPageTurn } = usePageTurn();
   const [introStarted, setIntroStarted] = useState(false);
   const [introFinished, setIntroFinished] = useState(false);
+  // const audioRef = useRef<HTMLAudioElement | null>(null);
+  // const [musicEnabled, setMusicEnabled] = useState(false);
 
-  // Kick off the intro animation once, right after the component mounts on the client.
   useEffect(() => {
-    setIntroStarted(true);
-  }, []);
+    const hasPlayedIntro = sessionStorage.getItem(
+      "archisman-intro-played-v2"
+    );
 
+    if (hasPlayedIntro) {
+      setIntroFinished(true);
+      return;
+    }
+
+    setIntroStarted(true);
+
+    const timer = window.setTimeout(() => {
+      setIntroFinished(true);
+
+      sessionStorage.setItem(
+        "archisman-intro-played-v2",
+        "true"
+      );
+    }, 5200);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+  // useEffect(() => {
+  //   if (!introFinished || !musicEnabled || !audioRef.current) return;
+
+  //   audioRef.current.volume = 0.25;
+
+  //   audioRef.current.play().catch(() => {
+  //     console.log("Audio playback is waiting for user interaction.");
+  //   });
+  // }, [introFinished, musicEnabled]);
   useEffect(() => {
     if (!introStarted) return;
 
@@ -73,9 +103,11 @@ export default function Home() {
 
     const previousOverflow = document.body.style.overflow;
     const previousPaddingRight = document.body.style.paddingRight;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
 
     document.body.style.overflow = "hidden";
+
     if (scrollbarWidth > 0) {
       document.body.style.paddingRight = `${scrollbarWidth}px`;
     }
@@ -85,6 +117,32 @@ export default function Home() {
       document.body.style.paddingRight = previousPaddingRight;
     };
   }, [activeCase]);
+
+
+  // ADD THE TAB-CHANGE EFFECT RIGHT HERE
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        const audio = document.querySelector(
+          'audio'
+        ) as HTMLAudioElement | null;
+
+        if (audio) {
+          audio.pause();
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+      );
+    };
+  }, []);
+
 
   const caseFiles: CaseFile[] = [
 
@@ -217,6 +275,12 @@ export default function Home() {
   return (
 
     <>
+      {/* <audio
+        ref={audioRef}
+        src="/music/magiksolo-pirate-tavern-full-version-167990.mp3"
+        loop
+        preload="auto"
+      /> */}
 
       {/* =========================================================*
           *NEWSPAPER DELIVERY INTRO ANIMATION (runs once on load)*
@@ -254,6 +318,23 @@ export default function Home() {
       )}
 
       <main className="px-4 py-2 md:px-8 md:py-4">
+        {/* <button
+          onClick={() => {
+            if (!audioRef.current) return;
+
+            if (audioRef.current.paused) {
+              audioRef.current.volume = 0.25;
+              audioRef.current.play();
+              setMusicEnabled(true);
+            } else {
+              audioRef.current.pause();
+              setMusicEnabled(false);
+            }
+          }}
+          className="fixed bottom-6 left-6 z-[100] border border-[var(--ink)] bg-[var(--paper)] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-all hover:!bg-[var(--paper)] hover:!text-[var(--ink)]"
+        >
+          {musicEnabled ? "Pause Music" : "Play Music"}
+        </button> */}
 
         {/* =========================================================*
 
@@ -431,33 +512,36 @@ export default function Home() {
               </p>
 
               <div className="mt-5 flex flex-wrap gap-4">
-
                 <a
-
                   href="#projects"
-
-                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-all duration-300 hover:border-[var(--red)] hover:text-[var(--red)]"
-
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-all duration-200 hover:!bg-transparent hover:!text-[var(--ink)]"
                 >
-
                   View My Work
-
                 </a>
 
                 <a
-
                   href="#story"
-
-                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-all duration-300 hover:border-[var(--red)] hover:text-[var(--red)]"
-
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-all duration-200 hover:!bg-transparent hover:!text-[var(--ink)]"
                 >
-
                   Read My Story
-
                 </a>
 
-              </div>
+                <a
+                  href="/cv.pdf"
+                  download="Archisman_Kundu_CV.pdf"
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-all duration-200 hover:!bg-transparent hover:!text-[var(--ink)]"
+                >
+                  Download CV
+                </a>
 
+                <button
+                  type="button"
+                  onClick={() => navigateWithPageTurn("/hobbies")}
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+                >
+                  My Hobbies
+                </button>
+              </div>
               <blockquote className="mt-5 max-w-lg border-l-2 border-[var(--ink)] pl-5 text-base italic md:text-xl">
 
                 “I don&apos;t chase dreams. I build them.”
@@ -2123,6 +2207,10 @@ export default function Home() {
             <p className="newspaper-mono text-[9px] font-bold uppercase tracking-[0.28em]">
 
               © {new Date().getFullYear()} Archisman Kundu
+              <span className="mx-2">•</span>
+              Background music: “Pirate Tavern (Full Version!)” by Magiksolo
+              <span className="mx-2">•</span>
+              Used under the Pixabay Content License
 
             </p>
 
@@ -2282,18 +2370,30 @@ export default function Home() {
                   </div>
 
                   {/* Footer */}
-                  <div className="mt-8 flex flex-col gap-4 border-t-2 border-[var(--ink)] pt-5 sm:mt-10 sm:gap-5 sm:pt-6 md:flex-row md:items-center md:justify-between">
-                    <p className="editorial text-xl font-black sm:text-2xl">
-                      End Of Case File.
-                    </p>
+                  <div className="relative mt-8 border-t-2 border-[var(--ink)] pt-5 sm:mt-10 sm:pt-6">
 
-                    <button
-                      type="button"
-                      onClick={() => setActiveCase(null)}
-                      className="w-full border border-[var(--ink)] px-5 py-3 text-[8px] font-bold uppercase tracking-[0.22em] transition hover:border-[var(--red)] hover:text-[var(--red)] sm:w-auto sm:text-[9px] sm:tracking-[0.25em]"
-                    >
-                      Close & Return
-                    </button>
+                    {/* Left */}
+                    <div className="absolute left-0 top-5 max-w-[42%] sm:top-6">
+                      <p className="text-[8px] font-bold uppercase tracking-[0.22em] text-[var(--ink)]/70 sm:text-[9px]">
+                        © 2026 Archisman Kundu · Background Music: “Pirate Tavern (Full Version!)”
+                        by Magiksolo · Used under the Pixabay Content License
+                      </p>
+                    </div>
+
+                    {/* PERFECTLY CENTERED TITLE */}
+                    <div className="flex min-h-[48px] items-center justify-center">
+                      <p className="whitespace-nowrap font-serif text-2xl font-black leading-none text-[var(--ink)] sm:text-3xl">
+                        The Archisman Daily
+                      </p>
+                    </div>
+
+                    {/* Right */}
+                    <div className="absolute right-0 top-5 max-w-[25%] text-right sm:top-6">
+                      <p className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--ink)]/70 sm:text-[9px]">
+                        Est. 2005 · No Final Edition Yet.
+                      </p>
+                    </div>
+
                   </div>
                 </div>
               </div>
