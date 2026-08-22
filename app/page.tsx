@@ -261,7 +261,7 @@ export default function Home() {
 
         *========================================================= */}
 
-        <section className="mx-auto flex h-screen w-full max-w-[1500px] flex-col overflow-hidden border-t-2 border-[var(--ink)]">
+        <section className="mx-auto flex min-h-screen w-full max-w-[1500px] flex-col border-t-2 border-[var(--ink)] lg:h-screen lg:overflow-hidden">
 
           {/* Masthead */}
 
@@ -331,13 +331,13 @@ export default function Home() {
 
             id="home"
 
-            className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[0.9fr_1.1fr]"
+            className="grid grid-cols-1 lg:min-h-0 lg:flex-1 lg:grid-cols-[0.9fr_1.1fr] lg:overflow-hidden"
 
           >
 
             {/* Left */}
 
-            <div className="min-h-0 border-b border-[var(--ink)] px-6 py-4 lg:border-b-0 lg:border-r lg:px-10">
+            <div className="border-b border-[var(--ink)] px-4 py-6 sm:px-6 md:px-10 lg:min-h-0 lg:border-b-0 lg:border-r lg:py-4">
 
               <div className="flex h-full min-h-0 flex-col items-center">
 
@@ -353,24 +353,15 @@ export default function Home() {
 
                 </p>
 
-                <div className="flex min-h-0 flex-1 items-center justify-center py-3">
-
+                <div className="flex w-full items-center justify-center py-5 lg:min-h-0 lg:flex-1 lg:py-3">
                   <Image
-
                     src="/wanted-poster.png"
-
                     alt="Wanted poster of Archisman Kundu"
-
                     width={1024}
-
                     height={1536}
-
                     priority
-
-                    className="block h-auto max-h-full w-auto max-w-full border-2 border-[var(--ink)] object-contain"
-
+                    className="block h-auto w-[78vw] max-w-[420px] border-2 border-[var(--ink)] object-contain sm:w-[65vw] lg:max-h-full lg:w-auto lg:max-w-full"
                   />
-
                 </div>
 
                 <div className="shrink-0 w-full max-w-[430px] border-y-2 border-[var(--ink)] py-1 text-center">
@@ -401,7 +392,7 @@ export default function Home() {
 
             {/* Right */}
 
-            <div className="flex min-h-0 flex-col justify-center px-6 py-4 md:px-10 lg:px-14">
+            <div className="flex flex-col justify-center px-5 py-10 sm:px-6 md:px-10 lg:min-h-0 lg:px-14 lg:py-4">
 
               <p className="text-xs font-bold uppercase tracking-[0.3em] md:text-sm">
 
@@ -409,7 +400,7 @@ export default function Home() {
 
               </p>
 
-              <h2 className="editorial mt-3 text-5xl font-black uppercase leading-[0.82] tracking-[-0.07em] md:text-7xl xl:text-[6.5rem]">
+              <h2 className="editorial mt-4 text-[clamp(3.8rem,15vw,6rem)] font-black uppercase leading-[0.82] tracking-[-0.07em] md:text-7xl xl:text-[6.5rem]">
 
                 Archisman
 
