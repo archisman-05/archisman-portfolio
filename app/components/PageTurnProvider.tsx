@@ -30,32 +30,24 @@ export function PageTurnProvider({
   const navigateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const finishTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const navigateWithPageTurn = useCallback(
-    (href: string) => {
-      // Prevent multiple clicks during animation
-      if (isTurning) return;
+  const navigateWithPageTurn = (href: string) => {
+  if (isTurning || !href) return;
 
-      // Start paper turn
-      setIsTurning(true);
+  // Start loading the next page immediately
+  router.prefetch(href);
 
-      /*
-        Change the route while the paper is already
-        covering most of the screen.
-      */
-      navigateTimer.current = setTimeout(() => {
-        router.push(href);
-      }, 850);
+  setIsTurning(true);
 
-      /*
-        Remove the overlay only after the complete
-        page-turn animation has finished.
-      */
-      finishTimer.current = setTimeout(() => {
-        setIsTurning(false);
-      }, 2200);
-    },
-    [isTurning, router]
-  );
+  // Change route while the paper is still covering the screen
+  window.setTimeout(() => {
+    router.push(href);
+  }, 850);
+
+  // Finish animation
+  window.setTimeout(() => {
+    setIsTurning(false);
+  }, 2200);
+};
 
   useEffect(() => {
     return () => {
