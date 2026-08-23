@@ -537,16 +537,17 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => navigateWithPageTurn("/hobbies")}
-                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition hover:bg-[var(--ink)] hover:text-[var(--paper)]"
                 >
                   My Hobbies
                 </button>
+
                 <button
                   type="button"
                   onClick={() => navigateWithPageTurn("/wanted")}
-                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+                  className="border border-[var(--ink)] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)] transition hover:bg-[var(--ink)] hover:text-[var(--paper)]"
                 >
-                  Create Your own Wanted Poster
+                  Create Your Own Wanted Poster
                 </button>
               </div>
               <blockquote className="mt-5 max-w-lg border-l-2 border-[var(--ink)] pl-5 text-base italic md:text-xl">
@@ -2438,7 +2439,7 @@ export default function Home() {
           </div>
         </div>
       )
-}
+      }
 
     </>
 
