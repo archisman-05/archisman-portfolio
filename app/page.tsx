@@ -870,7 +870,7 @@ export default function Home() {
 
                   {[
 
-                    ["01+", "Hackathons"],
+                    ["10+", "Hackathons"],
 
                     ["04+", "Major Projects"],
 
